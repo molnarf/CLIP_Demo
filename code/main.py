@@ -10,6 +10,7 @@ import utils as utils
 import clip_model as clip
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="../static2"), name="static")
 templates = Jinja2Templates(directory="../templates")
 
 
