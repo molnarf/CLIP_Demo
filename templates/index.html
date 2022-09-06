@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<link rel="stylesheet" href="static/styles/myycss.css">
+
+	<script>
+		
+		async function executeCLIP(){
+			var selectedImageFile = document.getElementById('imagefile').files[0];
+			var selectedLabelsFile = document.getElementById('labelfile').files[0];
+
+			if(selectedLabelsFile == null){
+				let myPromise = new Promise(getCifarLabels);
+				labels = await myPromise;
+				selectedLabelsFile = new File([labels], "static/Cifar100Classes.txt");
+			}
+
+			const XHR = new XMLHttpRequest();
+			const FD = new FormData();
+			
+			XHR.responseType = "blob"
+			
+			// Push our data into our FormData object
+			FD.append('label_file', selectedLabelsFile);
+			FD.append('image_folder_zip', selectedImageFile);
+			
+			// Define what happens on successful data submission
+			XHR.addEventListener('load', (event) => {
+				var blob = XHR.response;
+				var objectURL = URL.createObjectURL(blob);
+				// this is the trick - generates url like 
+				// blob:http://localhost/adb50c88-9468-40d9-8b0b-1f6ec8bb5a32
+				addimage(objectURL);
+			});
+
+			// Define what happens in case of error
+			XHR.addEventListener('error', (event) => {
+				alert('Oops! Something went wrong.');
+			});
+
+			// Set up our request
+			XHR.open('POST', '/upload/');
+
+			// Send our FormData object; HTTP headers are set automatically
+			XHR.send(FD);
+
+		}
+		
+		function getCifarLabels(resolve){
+			var req = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+
+			req.addEventListener('load', (event) => {
+				resolve(req.responseText);
+			});
+
+			req.open('GET', '/cifar/');
+			req.send();
+			return req.responseText ;
+		}
+		
+		function addimage(source) {
+			var img = new Image();
+			img.src = source;
+			
+			while (image.firstChild) {		<!-- remove all previous images -->
+			  image.removeChild(image.lastChild);
+			}
+			image.appendChild(img);
+		}
+	
+	</script>
+</head>
+
+<body>
+
+	<div class="main">
+
+		<h1>CLIP Demo</h1>
+		<br><br>
+		<p>Upload a zipfile containing images and a txt file containing labels separated by newlines</p>
+		<p>If no labelfile is provided, the Cifar100 labels are used.</p>
+		
+		<label for="myfile">Upload imagefolder (zip):</label>
+		<input type="file" id="imagefile" name="imagefile" />
+		
+		<br><br>
+		<label for="myfile">Upload labelfile (txt):</label>
+		<input type="file" id="labelfile" name="labelfile" />
+
+		<br><br>
+		<input class="sendbtn" type="submit" onclick='executeCLIP()'/>
+	</div>
+
+	<br>
+	
+	<div class="imageDiv" id = "image"></div>
+
+	
+		
+</body>
+
+</html>

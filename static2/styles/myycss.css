@@ -1,0 +1,51 @@
+body {
+	display: block;
+	margin: 0 auto;
+	max-height: 100%;
+	max-width: 100%;
+	background-image: linear-gradient(rgba(0, 0, 0, 0.1),rgba(0, 0, 0, 0.1)) ,url("/static/vereint.jpeg");
+	background-size: cover;
+	background-position: 0 0;
+	padding: 0;
+}
+
+h1 {
+	color: black;
+	margin-left: 50px;
+	font-size: 30px;
+	margin-bottom: 0px;
+}
+
+.main {
+    width: fit-content;
+    height: fit-content;
+	background-color: rgba(247, 240, 240, 0.4);
+    padding:10px;
+    word-wrap:break-word;
+}
+
+p, li, label, .sendbtn {
+	color: black;
+	font-size: 20px;
+	margin-left: 40px;
+}
+
+input {
+	color: black;
+	font-size: 20px;
+}
+
+
+
+.column {
+	width: 30%;
+	margin-left: 100px;
+	margin-right: 100px;
+	display:inline-block;
+}
+
+.imageDiv {
+	position: absolute;
+	right: 35px;
+	bottom: 20px;
+}
