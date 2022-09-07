@@ -63,13 +63,12 @@ def plot_best_predictions(images, labels, top_probs, top_labels):
         plt.gca().invert_yaxis()
         plt.gca().set_axisbelow(True)
         plt.yticks(y, [labels[index] for index in top_labels[i].numpy()])
-        plt.xlabel("probability")
 
-    plt.subplots_adjust(wspace=0.5)
+    plt.subplots_adjust(wspace=0.15)
     plt.tight_layout()
     #plt.show() 
 
-    fig.savefig(plot_path, dpi=80)
+    fig.savefig(plot_path, dpi=98)
     return plot_path
 
 
